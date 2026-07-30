@@ -102,6 +102,17 @@
         <p class="mt-4 text-xs font-mono text-slate-400 uppercase tracking-widest animate-pulse">Loading SGS Test Series App...</p>
     </div>
 
+    <!-- Fail-safe timer to dismiss loader immediately -->
+    <script>
+        setTimeout(function() {
+            var loader = document.getElementById('globalLoadingScreen');
+            if (loader && !loader.classList.contains('hidden')) {
+                loader.style.opacity = '0';
+                setTimeout(function() { loader.classList.add('hidden'); }, 300);
+            }
+        }, 800);
+    </script>
+
     <!-- Toast Notifications -->
     <div id="toastContainer" class="fixed top-4 right-4 left-4 sm:left-auto sm:right-6 z-[10000] flex flex-col gap-2 max-w-sm"></div>
 
@@ -149,12 +160,12 @@
                 </div>
 
                 <div class="pt-1 space-y-3">
-                    <button id="login-submit-btn" disabled class="w-full py-3.5 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 opacity-50 cursor-not-allowed text-white font-extrabold uppercase text-xs tracking-widest rounded-2xl shadow-glow-indigo transition active:scale-[0.98]">
+                    <button type="button" id="login-submit-btn" class="w-full py-3.5 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:to-purple-500 text-white font-extrabold uppercase text-xs tracking-widest rounded-2xl shadow-glow-indigo transition active:scale-[0.98]">
                         <i class="fa-solid fa-right-to-bracket mr-2"></i>Login Account
                     </button>
 
                     <!-- TRY APP / GUEST MODE -->
-                    <button id="try-app-guest-btn" class="w-full py-3 bg-[#0d1220] hover:bg-slate-900 border border-slate-700 text-amber-400 font-extrabold uppercase text-xs tracking-widest rounded-2xl transition active:scale-[0.98] flex items-center justify-center space-x-2">
+                    <button type="button" id="try-app-guest-btn" class="w-full py-3 bg-[#0d1220] hover:bg-slate-900 border border-slate-700 text-amber-400 font-extrabold uppercase text-xs tracking-widest rounded-2xl transition active:scale-[0.98] flex items-center justify-center space-x-2">
                         <i class="fa-solid fa-rocket animate-bounce"></i>
                         <span>Try App (Bina Login Ke Try Karein)</span>
                     </button>
@@ -193,7 +204,7 @@
                     <label for="signupTermsCheck" class="leading-tight">I accept the <span onclick="showPolicy('privacy')" class="text-indigo-400 underline cursor-pointer">Privacy Policy</span> & <span onclick="showPolicy('terms')" class="text-indigo-400 underline cursor-pointer">Terms of Service</span>.</label>
                 </div>
 
-                <button id="register-submit-btn" disabled class="w-full py-3.5 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 opacity-50 cursor-not-allowed text-white font-extrabold uppercase text-xs tracking-widest rounded-2xl shadow-glow-purple transition active:scale-[0.98]">
+                <button type="button" id="register-submit-btn" class="w-full py-3.5 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 hover:from-purple-500 hover:to-indigo-500 text-white font-extrabold uppercase text-xs tracking-widest rounded-2xl shadow-glow-purple transition active:scale-[0.98]">
                     Create Free Account
                 </button>
                 <p class="text-xs text-center text-slate-400">Already registered? <span id="trigger-login-btn" class="text-indigo-400 font-bold cursor-pointer hover:underline">Log In</span></p>
@@ -208,7 +219,7 @@
                         <input type="email" id="forgotEmail" placeholder="Enter registered email" class="w-full bg-[#0d1220]/80 pl-10 pr-4 py-3 rounded-2xl border border-slate-800 focus:outline-none focus:border-indigo-500 text-slate-200 text-sm font-semibold transition">
                     </div>
                 </div>
-                <button id="reset-submit-btn" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold uppercase text-xs tracking-widest rounded-2xl transition shadow-glow-indigo active:scale-[0.98]">
+                <button type="button" id="reset-submit-btn" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold uppercase text-xs tracking-widest rounded-2xl transition shadow-glow-indigo active:scale-[0.98]">
                     Send Reset Link
                 </button>
                 <p class="text-xs text-center text-slate-400"><span id="trigger-login-btn-2" class="text-slate-400 hover:text-white cursor-pointer underline font-mono">Back to Login</span></p>
@@ -269,6 +280,9 @@
                 <button onclick="navigateToView('view-master-pass')" id="tab-btn-unlockall" class="text-left p-3.5 rounded-2xl flex items-center space-x-3 font-medium transition text-slate-400 hover:text-slate-200 hover:bg-slate-900 tab-btn">
                     <i class="fa-solid fa-crown text-amber-400"></i><span>Full App Master Pass</span>
                 </button>
+                <button onclick="navigateToView('view-my-purchases')" id="tab-btn-purchases" class="text-left p-3.5 rounded-2xl flex items-center space-x-3 font-medium transition text-slate-400 hover:text-slate-200 hover:bg-slate-900 tab-btn">
+                    <i class="fa-solid fa-bag-shopping text-emerald-400"></i><span>Purchase Course</span>
+                </button>
                 <button onclick="navigateToView('view-pdf-notes')" id="tab-btn-notes" class="text-left p-3.5 rounded-2xl flex items-center space-x-3 font-medium transition text-slate-400 hover:text-slate-200 hover:bg-slate-900 tab-btn">
                     <i class="fa-solid fa-file-pdf text-rose-400"></i><span>PDF Class Notes</span>
                 </button>
@@ -293,9 +307,9 @@
                 </div>
                 
                 <div class="p-6 flex-1 flex flex-col justify-between">
-                    <div class="space-y-4">
-                        <button onclick="navigateToView('view-my-courses')" class="w-full text-left p-3.5 rounded-xl flex items-center space-x-3 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/20 font-bold shadow-glow-emerald transition">
-                            <i class="fa-solid fa-bag-shopping text-emerald-400"></i><span>Purchase Course</span>
+                    <div class="space-y-3">
+                        <button onclick="navigateToView('view-my-purchases')" class="w-full text-left p-3.5 rounded-xl flex items-center space-x-3 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/20 font-bold transition">
+                            <i class="fa-solid fa-bag-shopping text-emerald-400"></i><span>Purchase Course (My Passes)</span>
                         </button>
 
                         <button id="drawerAdminLink" class="w-full text-left p-3.5 rounded-xl flex items-center space-x-3 bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/20 font-bold hidden shadow-glow-purple transition">
@@ -414,16 +428,16 @@
                     </div>
                 </div>
 
-                <!-- SCREEN 2: SUB-SUBJECT SELECTION VIEW (Subject Buttons + In-Subject Buy Pass) -->
+                <!-- SCREEN 2: SUB-SUBJECT SELECTION VIEW (Only Subject Buttons) -->
                 <div id="view-subject-select" class="app-screen-view hidden space-y-6">
                     <div class="glass-panel p-6 rounded-[32px] space-y-5">
                         <div class="text-center border-b border-slate-800 pb-4">
                             <span class="text-[10px] bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-3 py-1 rounded-full font-mono font-bold uppercase inline-block mb-2">Step 1: Subject Selection</span>
                             <h2 id="subjectSelectCategoryHeader" class="text-lg sm:text-xl font-extrabold text-white">SSC GD Exam Modules</h2>
-                            <p class="text-xs text-slate-400 mt-1">Select subject below to open tests list or buy full pass for this course</p>
+                            <p class="text-xs text-slate-400 mt-1">Select subject below to open tests list</p>
                         </div>
 
-                        <!-- Main Sub-Subjects Buttons Grid -->
+                        <!-- 4 Main Sub-Subjects Buttons -->
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
                             <button onclick="selectSubjectAndShowTests('HINDI')" class="p-6 rounded-2xl bg-[#0d1220] hover:bg-slate-800 border border-slate-800 text-slate-200 font-bold text-sm flex flex-col items-center justify-center space-y-2 transition shadow-lg">
                                 <span class="text-3xl">📖</span><span>Hindi</span>
@@ -439,31 +453,25 @@
                             </button>
                         </div>
 
-                        <!-- In-Subject Buy Pass Row Button -->
-                        <div class="pt-4 border-t border-slate-800/80 flex justify-center">
-                            <button onclick="buyCurrentCategoryPass()" class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-amber-500 via-indigo-600 to-amber-500 hover:from-amber-400 hover:to-indigo-500 text-white font-extrabold text-xs uppercase rounded-2xl shadow-glow-amber transition active:scale-[0.98] flex items-center justify-center space-x-2">
-                                <i class="fa-solid fa-crown text-amber-300 text-sm"></i>
-                                <span id="inSubjectBuyPassBtnLabel">Buy Pass For This Course (₹299)</span>
+                        <!-- Direct Course Buy Button inside Subject View -->
+                        <div class="pt-4 border-t border-slate-800">
+                            <button id="directBuyCourseFromSubViewBtn" onclick="navigateToView('view-paid-passes')" class="w-full py-3.5 bg-gradient-to-r from-amber-600 via-indigo-600 to-amber-600 text-white font-extrabold uppercase text-xs tracking-widest rounded-2xl shadow-glow-amber transition active:scale-[0.98] flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-lock-open text-amber-400"></i>
+                                <span id="directBuyCourseText">Buy SSC GD Pass (₹299)</span>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- SCREEN 3: TESTS LIST STREAM (Test 1, Test 2...) -->
+                <!-- SCREEN 3: TESTS LIST STREAM (Only Test 1, Test 2...) -->
                 <div id="view-test-list" class="app-screen-view hidden space-y-6">
                     <div class="glass-panel p-5 rounded-[28px] space-y-4">
-                        <div class="flex justify-between items-center border-b border-slate-800 pb-3 flex-wrap gap-2">
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                             <div>
                                 <span id="testListCategorySubHeader" class="text-[9px] font-mono text-indigo-400 font-bold uppercase block">SSC GD | HINDI</span>
                                 <h3 id="testListTitleHeader" class="text-base font-bold text-white uppercase font-mono">Available Practice Tests</h3>
                             </div>
-                            <div class="flex items-center space-x-2">
-                                <span id="testListCountBadge" class="text-[10px] bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-2.5 py-1 rounded-full font-mono">20 Qs CBT Format</span>
-                                <button onclick="buyCurrentCategoryPass()" class="text-[10px] bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold px-3 py-1.5 rounded-xl uppercase transition flex items-center space-x-1 shadow-glow-amber">
-                                    <i class="fa-solid fa-crown"></i>
-                                    <span id="categoryBuyPassBtnText">Buy Category Pass</span>
-                                </button>
-                            </div>
+                            <span id="testListCountBadge" class="text-[10px] bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-2.5 py-1 rounded-full font-mono">20 Qs CBT Format</span>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="testsGridStream">
@@ -478,119 +486,83 @@
                         <div class="border-b border-slate-800 pb-4">
                             <h2 class="text-lg font-bold text-amber-400 uppercase tracking-wider flex items-center space-x-2">
                                 <i class="fa-solid fa-lock-open text-amber-400"></i>
-                                <span>Individual Course Passes & Paid Series</span>
+                                <span>Individual Course Passes (Single Exam Unlock)</span>
                             </h2>
-                            <p class="text-xs text-slate-400 mt-1">Select any course to view details & subjects or buy course pass to unlock all tests under that exam.</p>
+                            <p class="text-xs text-slate-400 mt-1">Buy pass for a specific course (e.g. SSC GD Pass) to unlock all tests under that exam.</p>
                         </div>
 
                         <!-- Individual Course Passes Grid -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <!-- SSC GD Pass Card -->
+                            <!-- SSC GD Pass -->
                             <div class="rwa-card p-5 rounded-2xl border-indigo-500/30 space-y-3">
                                 <div class="flex justify-between items-center">
                                     <span class="text-2xl">🎖️</span>
                                     <span id="passBadge_SSC_GD" class="text-[9px] font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2.5 py-1 rounded-full uppercase">Locked 🔒</span>
                                 </div>
-                                <h3 class="text-base font-extrabold text-white">SSC GD Series</h3>
-                                <p class="text-xs text-slate-400">Hindi, Maths, Reasoning & GK/GS (Test 1 Free Trial + Premium Tests).</p>
-                                <div class="flex items-center justify-between pt-1">
-                                    <span class="text-xl font-black text-amber-400">₹299</span>
-                                    <span class="text-[10px] text-slate-500 font-mono">Full Course Pass</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-2 pt-1">
-                                    <button onclick="selectExamCategory('SSC GD')" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs uppercase rounded-xl border border-slate-700 transition">View Details</button>
-                                    <button onclick="selectCoursePassPayment('SSC GD Pass', 299, 'SSC GD')" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase rounded-xl shadow-glow-indigo transition">Buy Pass</button>
-                                </div>
+                                <h3 class="text-base font-extrabold text-white">SSC GD Full Pass</h3>
+                                <p class="text-xs text-slate-400">Unlocks all SSC GD Hindi, Maths, Reasoning & GK/GS tests on your Email ID.</p>
+                                <p class="text-xl font-black text-amber-400">₹299</p>
+                                <button onclick="selectCoursePassPayment('SSC GD Pass', 299, 'SSC GD')" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase rounded-xl shadow-glow-indigo transition">Buy SSC GD Pass</button>
                             </div>
 
-                            <!-- Bihar Police Pass Card -->
+                            <!-- Bihar Police Pass -->
                             <div class="rwa-card p-5 rounded-2xl border-indigo-500/30 space-y-3">
                                 <div class="flex justify-between items-center">
                                     <span class="text-2xl">🚔</span>
                                     <span id="passBadge_BIHAR_POLICE" class="text-[9px] font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2.5 py-1 rounded-full uppercase">Locked 🔒</span>
                                 </div>
-                                <h3 class="text-base font-extrabold text-white">Bihar Police Series</h3>
-                                <p class="text-xs text-slate-400">Complete Bihar Police practice test series for all subjects.</p>
-                                <div class="flex items-center justify-between pt-1">
-                                    <span class="text-xl font-black text-amber-400">₹249</span>
-                                    <span class="text-[10px] text-slate-500 font-mono">Full Course Pass</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-2 pt-1">
-                                    <button onclick="selectExamCategory('BIHAR POLICE')" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs uppercase rounded-xl border border-slate-700 transition">View Details</button>
-                                    <button onclick="selectCoursePassPayment('Bihar Police Pass', 249, 'BIHAR POLICE')" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase rounded-xl shadow-glow-indigo transition">Buy Pass</button>
-                                </div>
+                                <h3 class="text-base font-extrabold text-white">Bihar Police Pass</h3>
+                                <p class="text-xs text-slate-400">Unlocks all Bihar Police practice test series on your Email ID.</p>
+                                <p class="text-xl font-black text-amber-400">₹249</p>
+                                <button onclick="selectCoursePassPayment('Bihar Police Pass', 249, 'BIHAR POLICE')" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase rounded-xl shadow-glow-indigo transition">Buy Bihar Police Pass</button>
                             </div>
 
-                            <!-- BSF HCM Pass Card -->
+                            <!-- BSF HCM Pass -->
                             <div class="rwa-card p-5 rounded-2xl border-indigo-500/30 space-y-3">
                                 <div class="flex justify-between items-center">
                                     <span class="text-2xl">🪖</span>
                                     <span id="passBadge_BSF_HCM" class="text-[9px] font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2.5 py-1 rounded-full uppercase">Locked 🔒</span>
                                 </div>
-                                <h3 class="text-base font-extrabold text-white">BSF HCM Series</h3>
+                                <h3 class="text-base font-extrabold text-white">BSF HCM Pass</h3>
                                 <p class="text-xs text-slate-400">Unlocks all BSF HCM and Computer test series on your Email ID.</p>
-                                <div class="flex items-center justify-between pt-1">
-                                    <span class="text-xl font-black text-amber-400">₹199</span>
-                                    <span class="text-[10px] text-slate-500 font-mono">Full Course Pass</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-2 pt-1">
-                                    <button onclick="selectExamCategory('BSF HCM')" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs uppercase rounded-xl border border-slate-700 transition">View Details</button>
-                                    <button onclick="selectCoursePassPayment('BSF HCM Pass', 199, 'BSF HCM')" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase rounded-xl shadow-glow-indigo transition">Buy Pass</button>
-                                </div>
+                                <p class="text-xl font-black text-amber-400">₹199</p>
+                                <button onclick="selectCoursePassPayment('BSF HCM Pass', 199, 'BSF HCM')" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase rounded-xl shadow-glow-indigo transition">Buy BSF HCM Pass</button>
                             </div>
 
-                            <!-- RRB Railway Pass Card -->
+                            <!-- RRB Railway Pass -->
                             <div class="rwa-card p-5 rounded-2xl border-indigo-500/30 space-y-3">
                                 <div class="flex justify-between items-center">
                                     <span class="text-2xl">🚆</span>
                                     <span id="passBadge_RRB_RAILWAY" class="text-[9px] font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2.5 py-1 rounded-full uppercase">Locked 🔒</span>
                                 </div>
-                                <h3 class="text-base font-extrabold text-white">RRB Railway Series</h3>
+                                <h3 class="text-base font-extrabold text-white">RRB Railway Pass</h3>
                                 <p class="text-xs text-slate-400">Unlocks all Railway NTPC & Group D tests on your Email ID.</p>
-                                <div class="flex items-center justify-between pt-1">
-                                    <span class="text-xl font-black text-amber-400">₹299</span>
-                                    <span class="text-[10px] text-slate-500 font-mono">Full Course Pass</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-2 pt-1">
-                                    <button onclick="selectExamCategory('RRB RAILWAY')" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs uppercase rounded-xl border border-slate-700 transition">View Details</button>
-                                    <button onclick="selectCoursePassPayment('RRB Railway Pass', 299, 'RRB RAILWAY')" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase rounded-xl shadow-glow-indigo transition">Buy Pass</button>
-                                </div>
+                                <p class="text-xl font-black text-amber-400">₹299</p>
+                                <button onclick="selectCoursePassPayment('RRB Railway Pass', 299, 'RRB RAILWAY')" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase rounded-xl shadow-glow-indigo transition">Buy RRB Railway Pass</button>
                             </div>
 
-                            <!-- Computer Special Pass Card -->
+                            <!-- Computer Special Pass -->
                             <div class="rwa-card p-5 rounded-2xl border-indigo-500/30 space-y-3">
                                 <div class="flex justify-between items-center">
                                     <span class="text-2xl">💻</span>
                                     <span id="passBadge_COMPUTER" class="text-[9px] font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2.5 py-1 rounded-full uppercase">Locked 🔒</span>
                                 </div>
-                                <h3 class="text-base font-extrabold text-white">Computer Special Series</h3>
+                                <h3 class="text-base font-extrabold text-white">Computer Special Pass</h3>
                                 <p class="text-xs text-slate-400">Unlocks all Computer Theory & Practice Tests on your Email ID.</p>
-                                <div class="flex items-center justify-between pt-1">
-                                    <span class="text-xl font-black text-amber-400">₹99</span>
-                                    <span class="text-[10px] text-slate-500 font-mono">Full Course Pass</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-2 pt-1">
-                                    <button onclick="selectExamCategory('COMPUTER')" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs uppercase rounded-xl border border-slate-700 transition">View Details</button>
-                                    <button onclick="selectCoursePassPayment('Computer Special Pass', 99, 'COMPUTER')" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase rounded-xl shadow-glow-indigo transition">Buy Pass</button>
-                                </div>
+                                <p class="text-xl font-black text-amber-400">₹99</p>
+                                <button onclick="selectCoursePassPayment('Computer Special Pass', 99, 'COMPUTER')" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase rounded-xl shadow-glow-indigo transition">Buy Computer Pass</button>
                             </div>
 
-                            <!-- Hindi Special Pass Card -->
+                            <!-- Hindi Special Pass -->
                             <div class="rwa-card p-5 rounded-2xl border-indigo-500/30 space-y-3">
                                 <div class="flex justify-between items-center">
                                     <span class="text-2xl">📖</span>
                                     <span id="passBadge_HINDI" class="text-[9px] font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2.5 py-1 rounded-full uppercase">Locked 🔒</span>
                                 </div>
-                                <h3 class="text-base font-extrabold text-white">Hindi Special Series</h3>
+                                <h3 class="text-base font-extrabold text-white">Hindi Special Pass</h3>
                                 <p class="text-xs text-slate-400">Unlocks all Hindi Vyakaran & Sahitya tests on your Email ID.</p>
-                                <div class="flex items-center justify-between pt-1">
-                                    <span class="text-xl font-black text-amber-400">₹99</span>
-                                    <span class="text-[10px] text-slate-500 font-mono">Full Course Pass</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-2 pt-1">
-                                    <button onclick="selectExamCategory('HINDI')" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs uppercase rounded-xl border border-slate-700 transition">View Details</button>
-                                    <button onclick="selectCoursePassPayment('Hindi Special Pass', 99, 'HINDI')" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase rounded-xl shadow-glow-indigo transition">Buy Pass</button>
-                                </div>
+                                <p class="text-xl font-black text-amber-400">₹99</p>
+                                <button onclick="selectCoursePassPayment('Hindi Special Pass', 99, 'HINDI')" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase rounded-xl shadow-glow-indigo transition">Buy Hindi Pass</button>
                             </div>
                         </div>
 
@@ -706,7 +678,24 @@
                     </div>
                 </div>
 
-                <!-- SCREEN 6: PDF CLASS NOTES (WITH IN-APP VIEWER) -->
+                <!-- SCREEN 6: MY PURCHASES VIEW (Purchase Course) -->
+                <div id="view-my-purchases" class="app-screen-view hidden space-y-6">
+                    <div class="glass-panel p-5 sm:p-7 rounded-[32px] space-y-5">
+                        <div class="border-b border-slate-800 pb-4">
+                            <h2 class="text-lg font-bold text-emerald-400 uppercase tracking-wider flex items-center space-x-2">
+                                <i class="fa-solid fa-bag-shopping text-emerald-400"></i>
+                                <span>My Purchased Courses & Active Passes</span>
+                            </h2>
+                            <p class="text-xs text-slate-400 mt-1">All active course passes linked with your registered Email ID.</p>
+                        </div>
+
+                        <div id="myPurchasedCoursesStream" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Injected via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SCREEN 7: PDF CLASS NOTES (WITH IN-APP VIEWER) -->
                 <div id="view-pdf-notes" class="app-screen-view hidden space-y-6">
                     <div class="glass-panel p-5 sm:p-7 rounded-[32px] space-y-5">
                         <div class="border-b border-slate-800 pb-4">
@@ -723,7 +712,7 @@
                     </div>
                 </div>
 
-                <!-- SCREEN 7: RESULTS HISTORY -->
+                <!-- SCREEN 8: RESULTS HISTORY -->
                 <div id="view-results" class="app-screen-view hidden space-y-6">
                     <div class="glass-panel p-5 sm:p-7 rounded-[32px]">
                         <div class="border-b border-slate-800 pb-4 mb-4">
@@ -751,23 +740,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- SCREEN 8: MY PURCHASED COURSES (NEW) -->
-                <div id="view-my-courses" class="app-screen-view hidden space-y-6">
-                    <div class="glass-panel p-5 sm:p-7 rounded-[32px] space-y-5">
-                        <div class="border-b border-slate-800 pb-4">
-                            <h2 class="text-lg font-bold text-emerald-400 uppercase tracking-wider flex items-center space-x-2">
-                                <i class="fa-solid fa-bag-shopping text-emerald-400"></i>
-                                <span>Purchase Course & Active Passes</span>
-                            </h2>
-                            <p class="text-xs text-slate-400 mt-1">Aapke dwara kharide gaye sabhi Course Passes aur Active Subscriptions.</p>
-                        </div>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="myPurchasedCoursesGrid">
-                            <!-- Injected via JS -->
                         </div>
                     </div>
                 </div>
@@ -1144,20 +1116,6 @@
         </div>
     </div>
 
-    <!-- STANDALONE FAIL-SAFE LOADER SCRIPLET -->
-    <script>
-        // Guaranteed Loader Dismissal Script (100% Fail-safe)
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                var loader = document.getElementById('globalLoadingScreen');
-                if (loader && !loader.classList.contains('hidden')) {
-                    loader.style.opacity = '0';
-                    setTimeout(function() { loader.classList.add('hidden'); }, 300);
-                }
-            }, 800);
-        });
-    </script>
-
     <!-- FIREBASE & APPLICATION JS ENGINE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
@@ -1194,35 +1152,42 @@
         let currentSelectedSubSubject = "HINDI";
         let currentActiveView = "view-home";
 
-        // Navigation History Stack
+        // Navigation History Stack to prevent mobile app exit on back press
         let navigationHistory = ["view-home"];
+
+        // Initialize Base State Entry
         history.replaceState({ viewId: 'view-home' }, '');
 
         window.navigateToView = function(viewId, isBackAction = false) {
             currentActiveView = viewId;
 
+            // Hide ALL views completely to isolate active view
             document.querySelectorAll('.app-screen-view').forEach(el => el.classList.add('hidden'));
 
+            // Show ONLY target view
             const targetView = document.getElementById(viewId);
             if (targetView) {
                 targetView.classList.remove('hidden');
             }
 
-            if (viewId === 'view-my-courses') {
-                window.renderMyPurchasedCourses();
-            }
-
             if (!isBackAction) {
+                // Avoid pushing duplicate back-to-back views
                 if (navigationHistory[navigationHistory.length - 1] !== viewId) {
                     navigationHistory.push(viewId);
                     history.pushState({ viewId: viewId }, '');
                 }
             }
 
+            // Update My Purchases View if clicked
+            if (viewId === 'view-my-purchases') {
+                window.renderMyPurchasedCourses();
+            }
+
+            // Update Desktop Sidebar / Mobile Nav Highlights
             document.querySelectorAll('.tab-btn').forEach(b => {
                 b.className = "text-left p-3.5 rounded-2xl flex items-center space-x-3 font-medium transition text-slate-400 hover:text-slate-200 hover:bg-slate-900 tab-btn";
             });
-            const activeDesktopBtn = document.getElementById(`tab-btn-${viewId.replace('view-', '').replace('-passes', '')}`);
+            const activeDesktopBtn = document.getElementById(`tab-btn-${viewId.replace('view-', '').replace('-passes', '').replace('my-purchases', 'purchases')}`);
             if (activeDesktopBtn) {
                 activeDesktopBtn.className = "text-left p-3.5 rounded-2xl flex items-center space-x-3 font-semibold transition tab-btn glass-panel-active text-white";
             }
@@ -1237,6 +1202,7 @@
                 mobBtn.classList.add('text-indigo-400');
             }
 
+            // Close mobile drawer if open
             const drawer = document.getElementById('sideDrawer');
             if (drawer && !drawer.classList.contains('-translate-x-full')) {
                 window.toggleDrawer();
@@ -1245,23 +1211,32 @@
 
         // Hardware Mobile Back Button Event Handler
         window.addEventListener('popstate', (event) => {
+            // 1. Check if CBT Test Runner is active
+            if (!document.getElementById('testRunnerModal').classList.contains('hidden')) {
+                if (confirm("Test chal raha hai! Exit karna chahte hain?")) {
+                    document.getElementById('testRunnerModal').classList.add('hidden');
+                    if (examTimerInterval) clearInterval(examTimerInterval);
+                } else {
+                    history.pushState({ viewId: 'test_runner' }, '');
+                }
+                return;
+            }
+
+            // 2. Check if PDF Viewer Modal is active
             if (!document.getElementById('pdfViewerModal').classList.contains('hidden')) {
                 window.closePdfViewerModal(false);
                 return;
             }
-            if (!document.getElementById('testRunnerModal').classList.contains('hidden')) {
-                document.getElementById('testRunnerModal').classList.add('hidden');
-                document.getElementById('testRunnerModal').classList.remove('flex');
-                if (examTimerInterval) clearInterval(examTimerInterval);
-                return;
-            }
+
+            // 3. Check if Result Modal is active
             if (!document.getElementById('testResultModal').classList.contains('hidden')) {
                 window.closeResultModal(false);
                 return;
             }
 
+            // 4. Handle Sub-Screen Navigation Stack
             if (navigationHistory.length > 1) {
-                navigationHistory.pop();
+                navigationHistory.pop(); // Remove current view
                 const prevView = navigationHistory[navigationHistory.length - 1];
                 window.navigateToView(prevView, true);
             } else {
@@ -1270,7 +1245,6 @@
             }
         });
 
-        // Helper function to generate 20 sample questions for testing
         function generate20SampleQuestions(exam, sub) {
             let list = [];
             for (let i = 1; i <= 20; i++) {
@@ -1299,57 +1273,6 @@
             { id: "pdf_2", title: "Bihar Police Constable Complete Samanya Gyan PDF", cat: "Bihar Police", driveUrl: "https://drive.google.com/file/d/1BpI23G8-6-m0w0k5P14l270gX6N9-preview" }
         ];
 
-        // STEP 1: Select Main Category -> Open View 2 (Subjects)
-        window.selectExamCategory = function(category) {
-            currentSelectedCategory = category;
-            document.getElementById('subjectSelectCategoryHeader').innerText = `${category} Exam Modules`;
-            
-            const freeOrQuiz = ["Free Test", "Trial Test", "Daily Quiz"];
-            if (freeOrQuiz.includes(category)) {
-                document.getElementById('inSubjectBuyPassBtnLabel').innerText = "Browse Paid Course Passes";
-                document.getElementById('categoryBuyPassBtnText').innerText = "Buy Paid Test Pass";
-            } else {
-                const passPrices = {
-                    "SSC GD": "Buy SSC GD Pass (₹299)",
-                    "BIHAR POLICE": "Buy Bihar Police Pass (₹249)",
-                    "BSF HCM": "Buy BSF HCM Pass (₹199)",
-                    "RRB RAILWAY": "Buy RRB Railway Pass (₹299)",
-                    "COMPUTER": "Buy Computer Pass (₹99)",
-                    "HINDI": "Buy Hindi Pass (₹99)"
-                };
-                const labelStr = passPrices[category] || `Buy ${category} Pass (₹299)`;
-                document.getElementById('inSubjectBuyPassBtnLabel').innerText = labelStr;
-                document.getElementById('categoryBuyPassBtnText').innerText = labelStr;
-            }
-
-            window.navigateToView('view-subject-select');
-        };
-
-        // STEP 2: Select Sub Subject -> Open View 3 (Tests)
-        window.selectSubjectAndShowTests = function(subject) {
-            currentSelectedSubSubject = subject;
-            document.getElementById('testListCategorySubHeader').innerText = `${currentSelectedCategory} | ${subject}`;
-            document.getElementById('testListTitleHeader').innerText = `${currentSelectedCategory} (${subject}) Tests`;
-            window.renderTestsGrid();
-            window.navigateToView('view-test-list');
-        };
-
-        // Buy Category Pass Action
-        window.buyCurrentCategoryPass = function() {
-            const passPrices = {
-                "SSC GD": { name: "SSC GD Pass", amount: 299 },
-                "BIHAR POLICE": { name: "Bihar Police Pass", amount: 249 },
-                "BSF HCM": { name: "BSF HCM Pass", amount: 199 },
-                "RRB RAILWAY": { name: "RRB Railway Pass", amount: 299 },
-                "COMPUTER": { name: "Computer Special Pass", amount: 99 },
-                "HINDI": { name: "Hindi Special Pass", amount: 99 }
-            };
-
-            const info = passPrices[currentSelectedCategory] || { name: `${currentSelectedCategory} Pass`, amount: 299 };
-            window.navigateToView('view-paid-passes');
-            window.selectCoursePassPayment(info.name, info.amount, currentSelectedCategory);
-        };
-
         // Auth Observer
         onAuthStateChanged(auth, async (user) => {
             if (user && !isGuestMode) {
@@ -1359,12 +1282,15 @@
                 document.getElementById('appContainer').classList.add('flex');
 
                 document.getElementById('drawerUserIdentity').innerText = user.email || "Student";
+                document.getElementById('topBarModeText').innerText = "SGS TEST SERIES - OFFICIAL FIREBASE CLOUD CONNECTED";
+                document.getElementById('logoutBtnLabel').innerText = "Logout Account";
 
                 const isMasterAdmin = MASTER_ADMIN_UIDS.includes(user.uid);
                 if (isMasterAdmin) {
                     document.getElementById('drawerAdminLink').classList.remove('hidden');
                 }
 
+                // Bind User Record from Firebase
                 const userRef = ref(database, `users/${user.uid}`);
                 onValue(userRef, (snap) => {
                     if (snap.exists()) {
@@ -1395,7 +1321,6 @@
                 document.getElementById('appContainer').classList.add('hidden');
                 document.getElementById('authContainer').classList.remove('hidden');
             }
-            window.hideGlobalLoadingScreen();
         });
 
         // GUEST MODE
@@ -1410,6 +1335,7 @@
             document.getElementById('displayUserNameHeader').innerText = "Guest Student";
             document.getElementById('drawerStudentName').innerText = "Guest Mode";
             document.getElementById('drawerUserIdentity').innerText = "guest@local.phone";
+            document.getElementById('topBarModeText').innerText = "GUEST MODE (TRIAL) - DATA SAVED ON PHONE LOCALSTORAGE";
             document.getElementById('logoutBtnLabel').innerText = "Exit Guest & Login";
             document.getElementById('drawerAdminLink').classList.add('hidden');
 
@@ -1461,6 +1387,7 @@
                 } else {
                     activeTestsList = defaultMockTests;
                 }
+                window.renderPaidSeriesGrid();
             });
         };
 
@@ -1482,18 +1409,49 @@
             });
         };
 
-        // Helper function to check if test is unlocked
+        // Helper function to check if test is unlocked for user
         window.checkIsTestUnlocked = function(test) {
             if (test.isFree) return true;
             if (!userDataCached) return false;
+            
+            // Full App Master Pass User
             if (userDataCached.isPaidUser === true) return true;
+
+            // Course-Specific Pass User
             if (userDataCached.unlockedCourses && userDataCached.unlockedCourses[test.examCategory] === true) {
                 return true;
             }
+
             return false;
         };
 
-        // Render Tests Stream Grid
+        // STEP 1: Select Main Category -> Open Screen 2 (Only Subject Buttons)
+        window.selectExamCategory = function(category) {
+            currentSelectedCategory = category;
+            document.getElementById('subjectSelectCategoryHeader').innerText = `${category} Exam Modules`;
+            
+            // Set Direct Buy Button inside Sub View
+            const prices = { "SSC GD": 299, "BIHAR POLICE": 249, "BSF HCM": 199, "RRB RAILWAY": 299, "COMPUTER": 99, "HINDI": 99 };
+            const price = prices[category] || 299;
+            document.getElementById('directBuyCourseText').innerText = `Buy ${category} Pass (₹${price})`;
+            document.getElementById('directBuyCourseFromSubViewBtn').onclick = function() {
+                window.selectCoursePassPayment(`${category} Pass`, price, category);
+                window.navigateToView('view-paid-passes');
+            };
+
+            window.navigateToView('view-subject-select');
+        };
+
+        // STEP 2: Select Sub Subject -> Open Screen 3 (Only Tests Cards)
+        window.selectSubjectAndShowTests = function(subject) {
+            currentSelectedSubSubject = subject;
+            document.getElementById('testListCategorySubHeader').innerText = `${currentSelectedCategory} | ${subject}`;
+            document.getElementById('testListTitleHeader').innerText = `${currentSelectedCategory} (${subject}) Tests`;
+            window.renderTestsGrid();
+            window.navigateToView('view-test-list');
+        };
+
+        // STEP 3: Render Tests Grid
         window.renderTestsGrid = function() {
             const stream = document.getElementById('testsGridStream');
             if(!stream) return;
@@ -1516,7 +1474,7 @@
 
                 const actionBtn = isUnlocked
                     ? `<button onclick="startTestRunner('${test.id}')" class="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-extrabold uppercase text-xs rounded-xl shadow-glow-indigo transition"><i class="fa-solid fa-circle-play mr-1.5"></i>Start Test Now</button>`
-                    : `<button onclick="buyCurrentCategoryPass()" class="w-full py-3 bg-amber-600 hover:bg-amber-500 text-white font-extrabold uppercase text-xs rounded-xl shadow-glow-amber transition"><i class="fa-solid fa-lock mr-1.5"></i>Get ${test.examCategory} Pass</button>`;
+                    : `<button onclick="navigateToView('view-paid-passes')" class="w-full py-3 bg-amber-600 hover:bg-amber-500 text-white font-extrabold uppercase text-xs rounded-xl shadow-glow-amber transition"><i class="fa-solid fa-lock mr-1.5"></i>Get ${test.examCategory} Pass</button>`;
 
                 stream.innerHTML += `
                     <div class="bg-[#0d1220] p-5 rounded-2xl border border-slate-800 space-y-4 hover:border-indigo-500/40 transition">
@@ -1560,56 +1518,97 @@
             });
         };
 
-        // Render Purchased Courses View
+        // Render My Purchased Courses Screen
         window.renderMyPurchasedCourses = function() {
-            const stream = document.getElementById('myPurchasedCoursesGrid');
+            const stream = document.getElementById('myPurchasedCoursesStream');
             if (!stream) return;
             stream.innerHTML = '';
 
-            if (!userDataCached) {
-                stream.innerHTML = `<div class="col-span-3 text-center p-8 text-slate-500 font-mono text-xs">Aapne abhi tak koi Course Pass nahi kharida hai.</div>`;
+            if (!userDataCached) return;
+
+            const isMasterPass = userDataCached.isPaidUser === true;
+            const unlockedCoursesObj = userDataCached.unlockedCourses || {};
+            const unlockedKeys = Object.keys(unlockedCoursesObj).filter(k => unlockedCoursesObj[k] === true);
+
+            if (!isMasterPass && unlockedKeys.length === 0) {
+                stream.innerHTML = `<div class="col-span-2 text-center p-8 text-slate-500 font-mono text-xs">Aapne abhi tak koi Course Pass nahi kharida hai. Course Passes me jaakar Pass khareedein!</div>`;
                 return;
             }
 
-            let hasAnyPass = false;
-
-            if (userDataCached.isPaidUser) {
-                hasAnyPass = true;
+            if (isMasterPass) {
                 stream.innerHTML += `
-                    <div class="rwa-card p-5 rounded-2xl border-amber-500/50 bg-amber-500/10 space-y-3">
+                    <div class="rwa-card p-5 rounded-2xl border-amber-500/50 bg-amber-500/10 space-y-3 col-span-2">
                         <div class="flex justify-between items-center">
                             <span class="text-2xl">👑</span>
-                            <span class="text-[9px] font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2.5 py-1 rounded-full uppercase">Active Master Pass</span>
+                            <span class="text-[9px] font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-3 py-1 rounded-full uppercase">Active Master Pass</span>
                         </div>
-                        <h3 class="text-base font-extrabold text-white">Full App Master Pass</h3>
-                        <p class="text-xs text-slate-300">Entire app courses, subjects & PDF class notes unlocked!</p>
-                        <button onclick="navigateToView('view-home')" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase rounded-xl transition">Open All Tests</button>
+                        <h3 class="text-base font-extrabold text-white">Full App All-Access Master Pass</h3>
+                        <p class="text-xs text-slate-300">Poori app ke saare exam courses (SSC GD, Bihar Police, BSF HCM, Railway, Computer, Hindi) unlocked hain!</p>
+                        <button onclick="navigateToView('view-home')" class="py-2.5 px-5 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs uppercase rounded-xl">Explore All Tests</button>
                     </div>
                 `;
-            }
-
-            if (userDataCached.unlockedCourses) {
-                Object.keys(userDataCached.unlockedCourses).forEach(cat => {
-                    if (userDataCached.unlockedCourses[cat] === true) {
-                        hasAnyPass = true;
-                        stream.innerHTML += `
-                            <div class="rwa-card p-5 rounded-2xl border-emerald-500/40 space-y-3">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-2xl">🎖️</span>
-                                    <span class="text-[9px] font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2.5 py-1 rounded-full uppercase">Unlocked Pass</span>
-                                </div>
-                                <h3 class="text-base font-extrabold text-white">${cat} Course Pass</h3>
-                                <p class="text-xs text-slate-300">All practice tests for ${cat} are unlocked on your Email ID.</p>
-                                <button onclick="selectExamCategory('${cat}')" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase rounded-xl shadow-glow-emerald transition">Open ${cat} Tests</button>
+            } else {
+                unlockedKeys.forEach(c => {
+                    stream.innerHTML += `
+                        <div class="rwa-card p-5 rounded-2xl border-emerald-500/40 space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-2xl">🎖️</span>
+                                <span class="text-[9px] font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2.5 py-1 rounded-full uppercase">Unlocked Pass 🔓</span>
                             </div>
-                        `;
-                    }
+                            <h3 class="text-base font-extrabold text-white">${c} Full Pass</h3>
+                            <p class="text-xs text-slate-400">Is exam ke saare practice tests aapki email ID par unlocked hain.</p>
+                            <button onclick="selectExamCategory('${c}')" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase rounded-xl">Open Course Tests</button>
+                        </div>
+                    `;
                 });
             }
+        };
 
-            if (!hasAnyPass) {
-                stream.innerHTML = `<div class="col-span-3 text-center p-8 text-slate-500 font-mono text-xs">Abhi tak koi Course Pass kharida nahi gaya hai. Course Passes me ja kar khareedein!</div>`;
+        // Render Paid Test Series Stream
+        window.renderPaidSeriesGrid = function() {
+            const stream = document.getElementById('paidSeriesGridStream');
+            if(!stream) return;
+            stream.innerHTML = '';
+
+            const paidSeries = activeTestsList.filter(t => t.examCategory === 'Paid Test Series');
+
+            if (paidSeries.length === 0) {
+                stream.innerHTML = `<div class="col-span-2 text-center p-8 text-slate-500 font-mono text-xs">No Paid Series active.</div>`;
+                return;
             }
+
+            paidSeries.forEach((test, idx) => {
+                const isUnlocked = window.checkIsTestUnlocked(test);
+
+                const badge = isUnlocked 
+                    ? `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-1 rounded-full text-[9px] font-mono font-bold uppercase"><i class="fa-solid fa-unlock mr-1"></i>Unlocked 🔓</span>`
+                    : `<span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-1 rounded-full text-[9px] font-mono font-bold uppercase"><i class="fa-solid fa-lock mr-1"></i>Locked 🔒</span>`;
+
+                const actionBtn = isUnlocked
+                    ? `<button onclick="startTestRunner('${test.id}')" class="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-extrabold uppercase text-xs rounded-xl shadow-glow-indigo transition"><i class="fa-solid fa-circle-play mr-1.5"></i>Start Test</button>`
+                    : `<button onclick="navigateToView('view-master-pass')" class="w-full py-3 bg-amber-600 hover:bg-amber-500 text-white font-extrabold uppercase text-xs rounded-xl shadow-glow-amber transition"><i class="fa-solid fa-lock mr-1.5"></i>Unlock Pass</button>`;
+
+                stream.innerHTML += `
+                    <div class="bg-[#0d1220] p-5 rounded-2xl border border-slate-800 space-y-4 hover:border-amber-500/40 transition">
+                        <div class="flex justify-between items-start gap-2">
+                            <div>
+                                <span class="text-[9px] font-mono font-bold text-amber-400 uppercase tracking-widest block">Paid Series Test #${idx+1}</span>
+                                <h3 class="text-sm font-bold text-white mt-0.5">${test.title}</h3>
+                            </div>
+                            ${badge}
+                        </div>
+
+                        <div class="flex items-center space-x-4 text-[11px] text-slate-400 font-mono">
+                            <span><i class="fa-solid fa-clipboard-question mr-1 text-slate-500"></i>${test.questions ? test.questions.length : 20} Qs</span>
+                            <span><i class="fa-solid fa-clock mr-1 text-slate-500"></i>15 Mins</span>
+                        </div>
+
+                        <div class="pt-2">
+                            ${actionBtn}
+                        </div>
+                    </div>
+                `;
+            });
         };
 
         // Render PDF Class Notes
@@ -1871,6 +1870,18 @@
             }
         };
 
+        // Re-Attempt Confirmation Logic
+        window.triggerReAttemptTest = function(testTitle) {
+            if (confirm(`Kya aap "${testTitle}" ko dobara re-attempt karna chahte hain?`)) {
+                const targetTest = activeTestsList.find(t => t.title === testTitle);
+                if (targetTest) {
+                    window.startTestRunner(targetTest.id);
+                } else {
+                    window.showCustomToast("Test data not found for re-attempt.", "error");
+                }
+            }
+        };
+
         window.renderUserHistoryTable = function() {
             const tbody = document.getElementById('myTestHistoryStream');
             if (!userDataCached || !userDataCached.history || Object.keys(userDataCached.history).length === 0) {
@@ -1890,7 +1901,7 @@
                         <td class="p-3 text-emerald-400 font-bold">${h.score}</td>
                         <td class="p-3 text-indigo-400 font-bold">${h.accuracy}</td>
                         <td class="p-3 text-right">
-                            <button onclick="navigateToView('view-home')" class="px-3 py-1 bg-indigo-600/80 hover:bg-indigo-500 text-white font-bold text-[10px] rounded-lg uppercase">Re-Attempt</button>
+                            <button onclick="triggerReAttemptTest('${h.title}')" class="px-3 py-1 bg-indigo-600/80 hover:bg-indigo-500 text-white font-bold text-[10px] rounded-lg uppercase">Re-Attempt</button>
                         </td>
                     </tr>
                 `;
@@ -2044,47 +2055,44 @@
                 return;
             }
 
-            const isPaidTest = (type === 'PAID');
-            const newQuestionObj = { question: q, options: [optA, optB, optC, optD], correctOption: correctOpt, desc: desc };
-
-            // Check if a test with the same title & category already exists
-            let existingTest = activeTestsList.find(t => t.title.toLowerCase() === title.toLowerCase() && t.examCategory === category && t.subSubject === subSubject);
+            const existingTest = activeTestsList.find(t => t.title.toLowerCase() === title.toLowerCase() && t.examCategory === category && t.subSubject === subSubject);
 
             if (existingTest) {
                 if (!existingTest.questions) existingTest.questions = [];
-                existingTest.questions.push(newQuestionObj);
-                existingTest.isFree = !isPaidTest;
+                existingTest.questions.push({ question: q, options: [optA, optB, optC, optD], correctOption: correctOpt, desc: desc });
 
                 set(ref(database, `tests/${existingTest.id}`), existingTest).then(() => {
-                    window.showCustomToast(`Question added to "${title}"! Total Qs: ${existingTest.questions.length}`, "success");
+                    window.showCustomToast(`Added question to existing "${title}"! Total Qs: ${existingTest.questions.length}`, "success");
                     document.getElementById('qText').value = '';
                     document.getElementById('qOptA').value = '';
                     document.getElementById('qOptB').value = '';
                     document.getElementById('qOptC').value = '';
                     document.getElementById('qOptD').value = '';
-                    document.getElementById('qDesc').value = '';
                 });
             } else {
                 const testId = `test_${category.toLowerCase().replace(/\s+/g, '_')}_${Date.now()}`;
+                const isTestFree = type === 'FREE';
+
                 const testPayload = {
                     id: testId,
                     title: title,
                     examCategory: category,
                     subSubject: subSubject,
-                    isFree: !isPaidTest,
-                    price: isPaidTest ? 49 : 0,
+                    isFree: isTestFree,
+                    price: isTestFree ? 0 : 49,
                     durationMinutes: 15,
-                    questions: [newQuestionObj]
+                    questions: [
+                        { question: q, options: [optA, optB, optC, optD], correctOption: correctOpt, desc: desc }
+                    ]
                 };
 
                 set(ref(database, `tests/${testId}`), testPayload).then(() => {
-                    window.showCustomToast(`New ${isPaidTest ? 'Paid 🔒' : 'Free'} Test "${title}" created!`, "success");
+                    window.showCustomToast("New Test & Question saved to Firebase!", "success");
                     document.getElementById('qText').value = '';
                     document.getElementById('qOptA').value = '';
                     document.getElementById('qOptB').value = '';
                     document.getElementById('qOptC').value = '';
                     document.getElementById('qOptD').value = '';
-                    document.getElementById('qDesc').value = '';
                 });
             }
         };
@@ -2193,8 +2201,15 @@
             }
         };
 
-        // Auth Handlers
-        document.getElementById('login-submit-btn').addEventListener('click', () => {
+        // Auth Handlers with Checkbox Validation
+        document.getElementById('login-submit-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            const check = document.getElementById('loginTermsCheck');
+            if (!check || !check.checked) {
+                window.showCustomToast("Privacy Policy & Terms accept karne ke liye checkbox par tick karein!", "error");
+                return;
+            }
+
             isGuestMode = false;
             const email = document.getElementById('loginEmail').value.trim();
             const pass = document.getElementById('loginPass').value.trim();
@@ -2205,7 +2220,14 @@
             });
         });
 
-        document.getElementById('register-submit-btn').addEventListener('click', () => {
+        document.getElementById('register-submit-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            const check = document.getElementById('signupTermsCheck');
+            if (!check || !check.checked) {
+                window.showCustomToast("Privacy Policy & Terms accept karne ke liye checkbox par tick karein!", "error");
+                return;
+            }
+
             isGuestMode = false;
             const name = document.getElementById('registerName').value.trim();
             const email = document.getElementById('registerEmail').value.trim();
