@@ -169,7 +169,7 @@
                     <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1.5 tracking-wider">Full Name</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500"><i class="fa-solid fa-user text-sm"></i></span>
-                        <input type="text" id="registerName" placeholder="Rahul Kumar" class="w-full bg-[#0d1220]/80 pl-10 pr-4 py-3 rounded-2xl border border-slate-800 focus:outline-none focus:border-indigo-500 text-slate-200 text-sm font-semibold transition">
+                        <input type="text" id="registerName" placeholder="Your Name" class="w-full bg-[#0d1220]/80 pl-10 pr-4 py-3 rounded-2xl border border-slate-800 focus:outline-none focus:border-indigo-500 text-slate-200 text-sm font-semibold transition">
                     </div>
                 </div>
                 <div>
@@ -2044,28 +2044,49 @@
                 return;
             }
 
-            const testId = `test_${category.toLowerCase().replace(/\s+/g, '_')}_${Date.now()}`;
-            const testPayload = {
-                id: testId,
-                title: title,
-                examCategory: category,
-                subSubject: subSubject,
-                isFree: type === 'FREE',
-                price: type === 'FREE' ? 0 : 49,
-                durationMinutes: 15,
-                questions: [
-                    { question: q, options: [optA, optB, optC, optD], correctOption: correctOpt, desc: desc }
-                ]
-            };
+            const isPaidTest = (type === 'PAID');
+            const newQuestionObj = { question: q, options: [optA, optB, optC, optD], correctOption: correctOpt, desc: desc };
 
-            set(ref(database, `tests/${testId}`), testPayload).then(() => {
-                window.showCustomToast("Test & Question saved to Firebase!", "success");
-                document.getElementById('qText').value = '';
-                document.getElementById('qOptA').value = '';
-                document.getElementById('qOptB').value = '';
-                document.getElementById('qOptC').value = '';
-                document.getElementById('qOptD').value = '';
-            });
+            // Check if a test with the same title & category already exists
+            let existingTest = activeTestsList.find(t => t.title.toLowerCase() === title.toLowerCase() && t.examCategory === category && t.subSubject === subSubject);
+
+            if (existingTest) {
+                if (!existingTest.questions) existingTest.questions = [];
+                existingTest.questions.push(newQuestionObj);
+                existingTest.isFree = !isPaidTest;
+
+                set(ref(database, `tests/${existingTest.id}`), existingTest).then(() => {
+                    window.showCustomToast(`Question added to "${title}"! Total Qs: ${existingTest.questions.length}`, "success");
+                    document.getElementById('qText').value = '';
+                    document.getElementById('qOptA').value = '';
+                    document.getElementById('qOptB').value = '';
+                    document.getElementById('qOptC').value = '';
+                    document.getElementById('qOptD').value = '';
+                    document.getElementById('qDesc').value = '';
+                });
+            } else {
+                const testId = `test_${category.toLowerCase().replace(/\s+/g, '_')}_${Date.now()}`;
+                const testPayload = {
+                    id: testId,
+                    title: title,
+                    examCategory: category,
+                    subSubject: subSubject,
+                    isFree: !isPaidTest,
+                    price: isPaidTest ? 49 : 0,
+                    durationMinutes: 15,
+                    questions: [newQuestionObj]
+                };
+
+                set(ref(database, `tests/${testId}`), testPayload).then(() => {
+                    window.showCustomToast(`New ${isPaidTest ? 'Paid 🔒' : 'Free'} Test "${title}" created!`, "success");
+                    document.getElementById('qText').value = '';
+                    document.getElementById('qOptA').value = '';
+                    document.getElementById('qOptB').value = '';
+                    document.getElementById('qOptC').value = '';
+                    document.getElementById('qOptD').value = '';
+                    document.getElementById('qDesc').value = '';
+                });
+            }
         };
 
         window.switchAdminSubTab = function(sub) {
